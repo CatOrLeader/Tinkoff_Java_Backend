@@ -1,10 +1,8 @@
 package edu.hw1;
 
 import java.time.LocalTime;
-import java.util.Scanner;
 
 public final class Task1 {
-    private final static Scanner SCANNER = new Scanner(System.in);
 
     private Task1() {
     }
