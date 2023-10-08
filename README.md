@@ -1,5 +1,5 @@
-![Build Status](https://github.com/sanyarnd/java-course-2023/actions/workflows/build.yml/badge.svg)
+![Build Status](https://github.com/CatOrLeader/Tinkoff_Java_Backend/build.yml/badge.svg)
 
 Домашние задания курса https://fintech.tinkoff.ru/academy/java
 
-Студент: `ФИО`
+Студент: Мухутдинов Артур Робертович
