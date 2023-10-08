@@ -9,10 +9,6 @@ public final class Task1 {
     private Task1() {
     }
 
-    public static void main(String[] args) {
-        minutesToSeconds(SCANNER.nextLine());
-    }
-
     public static long minutesToSeconds(String input) {
         if (!input.matches("(\\d+):([0-5]\\d)")) {
             return -1;
