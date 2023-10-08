@@ -1,14 +1,10 @@
 package edu.hw1;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public final class Task1 {
     private final static Scanner SCANNER = new Scanner(System.in);
-    private final static Logger LOGGER = LogManager.getLogger();
 
     private Task1() {
     }
