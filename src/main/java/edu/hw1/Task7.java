@@ -25,8 +25,6 @@ public final class Task7 {
             remains.append(bin.charAt(i));
         }
 
-        LogManager.getLogger().info(bin + " " + remains + " " + shifted);
-
         return toDec(remains + shifted.toString());
     }
 
