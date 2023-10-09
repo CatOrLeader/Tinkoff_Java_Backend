@@ -1,10 +1,8 @@
 package edu.hw1;
 
+import java.util.InputMismatchException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
-
-import java.util.InputMismatchException;
 import static edu.hw1.Task8.knightBoardCapture;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
