@@ -2,6 +2,7 @@ package edu.project1;
 
 import edu.project1.text.Text;
 import java.io.InputStream;
+import java.util.InputMismatchException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -36,8 +37,12 @@ public final class Logic {
     }
 
     public void setupLang() {
-        config.setLang(parser.askUserLang());
-        parser.updateLang(config);
+        try {
+            config.setLang(parser.askUserLang());
+            parser.updateLang(config);
+        } catch (InputMismatchException mismatchException) {
+            setupLang();
+        }
     }
 
     private boolean isWin() {
@@ -97,12 +102,23 @@ public final class Logic {
 
     @NotNull
     private Session iterate() {
-        String letter = parser.askUserLetter();
-        return processLetter(letter);
+        try {
+            String letter = parser.askUserLetter();
+            return processLetter(letter);
+        } catch (InputMismatchException input) {
+            iterate();
+        }
+
+        return session;
     }
 
     private void initialise() {
         session = new Session(config);
+    }
+
+    private void maybeRestart() throws InputMismatchException {
+        boolean isAgain = parser.askUserAgain();
+        processUserChoice(isAgain);
     }
 
     void start() {
@@ -125,7 +141,10 @@ public final class Logic {
             LOGGER.info(text.looseMsg());
         }
 
-        boolean isAgain = parser.askUserAgain();
-        processUserChoice(isAgain);
+        try {
+            maybeRestart();
+        } catch (InputMismatchException mismatchException) {
+            maybeRestart();
+        }
     }
 }
