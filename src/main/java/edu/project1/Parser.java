@@ -3,13 +3,12 @@ package edu.project1;
 import edu.project1.text.Language;
 import edu.project1.text.RusText;
 import edu.project1.text.Text;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.jetbrains.annotations.NotNull;
-
 import java.io.InputStream;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 
 public class Parser {
     private static final Logger LOGGER = LogManager.getLogger();
