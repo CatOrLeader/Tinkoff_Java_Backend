@@ -3,12 +3,13 @@ package edu.project1;
 import edu.project1.text.Language;
 import edu.project1.text.RusText;
 import edu.project1.text.Text;
-import java.io.InputStream;
-import java.util.InputMismatchException;
-import java.util.Scanner;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
+
+import java.io.InputStream;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
 public class Parser {
     private static final Logger LOGGER = LogManager.getLogger();
@@ -36,17 +37,22 @@ public class Parser {
         String maybeLang;
         maybeLang = scanner.nextLine().trim();
 
-        Text newText = Language.parseLang(maybeLang).getLanguageClass();
+        try {
+            Text newText = Language.parseLang(maybeLang).getLanguageClass();
 
-        if (newText == null) {
-            throw new RuntimeException();
+            if (newText == null) {
+                throw new RuntimeException();
+            }
+
+            if (newText instanceof RusText) {
+                LOGGER.info(text.rusLanguageDisclaimer());
+            }
+
+            return newText;
+        } catch (InputMismatchException inputMismatch) {
+            LOGGER.info(text.incorrectLanguageMsg());
+            throw inputMismatch;
         }
-
-        if (newText instanceof RusText) {
-            LOGGER.info(text.rusLanguageDisclaimer());
-        }
-
-        return newText;
     }
 
     public boolean askUserAgain() {

@@ -2,8 +2,6 @@ package edu.project1;
 
 import edu.project1.text.EngText;
 import edu.project1.text.RusText;
-import edu.project1.text.Text;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
