@@ -37,11 +37,13 @@ public final class Logic {
     }
 
     public void setupLang() {
-        try {
-            config.setLang(parser.askUserLang());
-            parser.updateLang(config);
-        } catch (InputMismatchException mismatchException) {
-            setupLang();
+        while (true) {
+            try {
+                config.setLang(parser.askUserLang());
+                parser.updateLang(config);
+                return;
+            } catch (InputMismatchException ignored) {
+            }
         }
     }
 
@@ -102,14 +104,13 @@ public final class Logic {
 
     @NotNull
     private Session iterate() {
-        try {
-            String letter = parser.askUserLetter();
-            return processLetter(letter);
-        } catch (InputMismatchException input) {
-            iterate();
+        while (true) {
+            try {
+                String letter = parser.askUserLetter();
+                return processLetter(letter);
+            } catch (InputMismatchException ignored) {
+            }
         }
-
-        return session;
     }
 
     private void initialise() {
@@ -141,10 +142,12 @@ public final class Logic {
             LOGGER.info(text.looseMsg());
         }
 
-        try {
-            maybeRestart();
-        } catch (InputMismatchException mismatchException) {
-            maybeRestart();
+        while (true) {
+            try {
+                maybeRestart();
+                return;
+            } catch (InputMismatchException ignored) {
+            }
         }
     }
 }
