@@ -24,7 +24,7 @@ public class ExponentTest {
         int exp = -2;
 
         double actualValue = new Exponent(constant, exp).evaluate();
-        double expectedValue = -4;
+        double expectedValue = 0.25;
 
         assertThat(actualValue).isEqualTo(expectedValue);
     }

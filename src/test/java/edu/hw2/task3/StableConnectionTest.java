@@ -3,13 +3,15 @@ package edu.hw2.task3;
 import edu.hw2.task3.connections.Connection;
 import edu.hw2.task3.connections.StableConnection;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import static com.github.stefanbirkner.systemlambda.SystemLambda.tapSystemOut;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class StableConnectionTest {
+    private static final int MAX_ATTEMPTS = 100;
+
     private Connection connection;
 
     @BeforeEach
@@ -17,21 +19,21 @@ public class StableConnectionTest {
         connection = new StableConnection();
     }
 
-    @AfterEach
-    public void clean() throws Exception {
-        connection.close();
-    }
-
     @Test
     @DisplayName("Connection is established")
     void executeConnection() throws Exception {
         String command = "docker-compose up";
 
-        String actualValue = tapSystemOut(
-            () -> connection.execute(command)
-        ).trim().split("\u001B")[3].substring(4);
-        String expectedValue = "Executed command " + command;
+        Throwable actualValue = null;
+        for (int i = 0; i < MAX_ATTEMPTS; i++) {
+            try {
+                connection.execute(command);
+                connection.close();
+            } catch (Exception any) {
+                actualValue = any;
+            }
+        }
 
-        assertThat(actualValue).isEqualTo(expectedValue);
+        assertThat(actualValue).isNull();
     }
 }
