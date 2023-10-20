@@ -55,9 +55,4 @@ public interface Text {
     String exitMsg();
 
     String abnormalExitMsg();
-
-    default String rusLanguageDisclaimer() {
-        return "Помните, что сменив язык, вы не меняете загаданные слова. Словарь содержит слова только на\n"
-               + "английском языке; вводите символы английского алфавита. Спасибо за внимание!";
-    }
 }

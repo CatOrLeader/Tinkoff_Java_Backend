@@ -1,6 +1,5 @@
 package edu.project1;
 
-import edu.project1.Dictionary;
 import edu.project1.text.EngText;
 import edu.project1.text.RusText;
 import org.junit.jupiter.api.DisplayName;
