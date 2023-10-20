@@ -19,6 +19,11 @@ public class RusText implements Text {
     }
 
     @Override
+    public String languageChangedSuccessfully() {
+        return "Язык успешно сменён. Слова будут загаданы на Русском языке";
+    }
+
+    @Override
     public String incorrectLanguageMsg() {
         return "Введенный язык неверен. Попробуйте повторно";
     }

@@ -1,32 +1,70 @@
 package edu.project1;
 
-import lombok.Getter;
-import lombok.Setter;
+import edu.project1.text.Text;
 
-@Getter
-@Setter
 public final class Session {
-    private int doneMistakes;
-    private String word;
-    private StringBuilder guessedWord;
+    public static final int MAX_MISTAKES = 5;
+    private final String word;
+    private Text text;
     private State state;
+    private String guessedWord;
+    private int mistakes;
 
-    public Session(Config config) {
-        doneMistakes = 0;
-        word = config.getDictionary().randomWord();
-        guessedWord = new StringBuilder("*".repeat(word.length()));
+    public Session(Text text) {
+        Dictionary dictionary = Dictionary.defaultDictionary(text);
+        this.text = text;
+        word = dictionary.randomWord();
+        state = State.CONTINUE;
+        guessedWord = "*".repeat(dictionary.getLastChosenWord().length());
+        mistakes = 0;
+    }
+
+    public Text getText() {
+        return text;
+    }
+
+    public void setText(Text text) {
+        this.text = text;
+    }
+
+    public String getWord() {
+        return word;
+    }
+
+    public String getGuessedWord() {
+        return guessedWord;
+    }
+
+    public void setGuessedWord(String guessedWord) {
+        this.guessedWord = guessedWord;
+        if (isWordGuessed()) {
+            state = State.WIN;
+        }
+    }
+
+    public State getState() {
+        return state;
+    }
+
+    public void incrementMistakes() {
+        mistakes++;
+        if (mistakes == MAX_MISTAKES) {
+            if (isWordGuessed()) {
+                state = State.WIN;
+            } else {
+                state = State.LOOSE;
+            }
+
+            return;
+        }
         state = State.CONTINUE;
     }
 
-    public void incrementMistake() {
-        doneMistakes++;
+    private boolean isWordGuessed() {
+        return word.contentEquals(guessedWord);
     }
 
-    public void win() {
-        state = State.WIN;
-    }
-
-    public void loose() {
-        state = State.LOOSE;
+    public int getMistakes() {
+        return mistakes;
     }
 }

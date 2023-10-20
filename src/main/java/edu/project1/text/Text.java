@@ -3,6 +3,8 @@ package edu.project1.text;
 public interface Text {
     String greetingsMsg();
 
+    String languageChangedSuccessfully();
+
     String incorrectLanguageMsg();
 
     String incorrectLetterInputMsg();

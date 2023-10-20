@@ -1,30 +1,52 @@
 package edu.project1;
 
 import edu.project1.text.Text;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.jetbrains.annotations.NotNull;
+import java.io.InputStream;
+import static edu.project1.Utils.LOGGER;
 
 public final class HangmanGame {
-    private static final Logger LOGGER = LogManager.getLogger();
-    private final Logic logic;
+    private final MoveHandler moveHandler;
+    private Session session;
+    private Text text;
 
-    public HangmanGame() {
-        logic = new Logic();
+    public HangmanGame(InputStream inputStream) {
+        moveHandler = new MoveHandler(inputStream);
+        setupSession();
     }
 
-    public HangmanGame(@NotNull Dictionary dict) {
-        logic = new Logic(dict);
+    private void setupSession() {
+        session = new Session(moveHandler.getText());
+        moveHandler.setSession(session);
+        text = session.getText();
     }
 
     public void run() {
-        Text text = logic.getText();
-        try {
-            LOGGER.info(text.greetingsMsg());
-            logic.setupLang();
-            logic.start();
-        } catch (Exception any) {
-            LOGGER.info(text.abnormalExitMsg());
+        LOGGER.info(text.greetingsMsg());
+        while (true) {
+            startGame();
+            if (!moveHandler.askAgain()) {
+                LOGGER.info(text.exitMsg());
+                return;
+            }
+            setupSession();
+        }
+    }
+
+    private void startGame() {
+        while (session.getState() == State.CONTINUE) {
+            moveHandler.askLetter();
+            LOGGER.info(text.iterStepMsg(
+                session.getGuessedWord().substring(0, 1).toUpperCase()
+                + session.getGuessedWord().substring(1),
+                session.getMistakes(),
+                Session.MAX_MISTAKES
+            ));
+        }
+
+        switch (session.getState()) {
+            case WIN -> LOGGER.info(text.winMsg());
+            case LOOSE -> LOGGER.info(text.looseMsg());
+            default -> LOGGER.info("Error occurred. State of the game is incorrect at the end.");
         }
     }
 }

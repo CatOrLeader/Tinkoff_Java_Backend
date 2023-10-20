@@ -5,6 +5,6 @@ public final class Application {
     }
 
     public static void main(String[] args) {
-        new HangmanGame().run();
+        new HangmanGame(System.in).run();
     }
 }

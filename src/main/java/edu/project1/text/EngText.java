@@ -18,6 +18,11 @@ public class EngText implements Text {
     }
 
     @Override
+    public String languageChangedSuccessfully() {
+        return "Language is changed successfully. Words will be riddled in the English";
+    }
+
+    @Override
     public String incorrectLanguageMsg() {
         return "Your input is incorrect! Try again and choose the appropriate language for you";
     }
