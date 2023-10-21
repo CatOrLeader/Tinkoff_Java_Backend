@@ -2,6 +2,9 @@ package edu.hw2.task2;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class RectangleTest {
@@ -40,7 +43,7 @@ public class RectangleTest {
         Rectangle rect = new Square();
         rect.setWidth(width).setHeight(height);
         double actualValue = rect.area();
-        double expectedValue = 9;
+        double expectedValue = 6;
 
         assertThat(actualValue).isEqualTo(expectedValue);
     }

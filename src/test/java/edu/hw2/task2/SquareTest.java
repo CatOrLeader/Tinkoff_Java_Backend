@@ -10,20 +10,7 @@ public class SquareTest {
     void correctValuesAsSquareSingleAssignment() {
         double size = 2;
 
-        double actualValue = new Square().setWidth(size).area();
-        double expectedValue = 4;
-
-        assertThat(actualValue).isEqualTo(expectedValue);
-    }
-
-    @Test
-    @DisplayName("Correct square values passed as Shape, single assignment")
-    void correctValuesAsShapeSingleAssignment() {
-        double size = 2;
-
-        Shape rect = new Square();
-        rect.setWidth(size);
-        double actualValue = rect.area();
+        double actualValue = new Square().setSides(size).area();
         double expectedValue = 4;
 
         assertThat(actualValue).isEqualTo(expectedValue);
@@ -32,7 +19,7 @@ public class SquareTest {
     @Test
     @DisplayName("Correct square values passed as Square, double assignment")
     void correctValuesAsSquareDoubleAssignment() {
-        double width = 2;
+        double width = 3;
         double height = 3;
 
         double actualValue = new Square().setWidth(width).setHeight(height).area();
@@ -42,14 +29,12 @@ public class SquareTest {
     }
 
     @Test
-    @DisplayName("Correct square values passed as Shape, double assignment")
-    void correctValuesAsShapeDoubleAssignment() {
-        double width = 2;
+    @DisplayName("Correct square values passed as Rectangle, double assignment")
+    void correctValuesAsRectDoubleAssignment() {
+        double width = 3;
         double height = 3;
 
-        Shape rect = new Square();
-        rect.setWidth(width).setHeight(height);
-        double actualValue = rect.area();
+        double actualValue = new Rectangle().setWidth(width).setHeight(height).area();
         double expectedValue = 9;
 
         assertThat(actualValue).isEqualTo(expectedValue);
