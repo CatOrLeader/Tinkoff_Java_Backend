@@ -2,6 +2,7 @@ package edu.hw3;
 
 import java.util.Arrays;
 import java.util.List;
+import org.jetbrains.annotations.NotNull;
 
 public final class Task4 {
     private static final int MAX_VALUE = 4000;
@@ -11,6 +12,7 @@ public final class Task4 {
     private Task4() {
     }
 
+    @NotNull
     public static String convertToRoman(int value) {
         if (!(1 <= value && value <= MAX_VALUE)) {
             throw new IllegalArgumentException("incorrect value provided; possible range [1, 4000]");
