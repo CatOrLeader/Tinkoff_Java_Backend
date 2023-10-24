@@ -39,4 +39,15 @@ public class Task1Test {
 
         assertThat(actualValue).isEqualTo(expectedValue);
     }
+
+    @Test
+    @DisplayName("Empty string")
+    void emptyString() {
+        String sentence = "";
+
+        String actualValue = Task1.atbash(sentence);
+        String expectedValue = "";
+
+        assertThat(actualValue).isEqualTo(expectedValue);
+    }
 }

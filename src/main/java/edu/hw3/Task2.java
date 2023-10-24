@@ -3,6 +3,7 @@ package edu.hw3;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Stack;
+import org.jetbrains.annotations.NotNull;
 
 public final class Task2 {
     private static final Stack<Character> RPE_STACK = new Stack<>();
@@ -10,7 +11,8 @@ public final class Task2 {
     private Task2() {
     }
 
-    public static ArrayList<String> clusterize(String string) {
+    @NotNull
+    public static ArrayList<String> clusterize(@NotNull String string) {
         ArrayList<String> clusters = new ArrayList<>();
         StringBuilder clusterBuilder = new StringBuilder();
 
