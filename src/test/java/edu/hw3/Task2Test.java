@@ -1,6 +1,8 @@
 package edu.hw3;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -87,5 +89,13 @@ public class Task2Test {
         expectedCluster.add("((()))");
 
         assertThat(actualClusters).containsExactlyElementsOf(expectedCluster);
+    }
+
+    @Test
+    @DisplayName("No balance of parenthesis")
+    void noBalanceOfParenthesis() {
+        String string = "((()";
+
+        Assertions.assertThrows(InputMismatchException.class, () -> Task2.clusterize(string));
     }
 }

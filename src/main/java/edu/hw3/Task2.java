@@ -6,6 +6,7 @@ import java.util.Stack;
 import org.jetbrains.annotations.NotNull;
 
 public final class Task2 {
+    private static final String INCORRECT_INPUT_CAUSE = "incorrect balance between open and close parenthesis";
     private static final Stack<Character> RPE_STACK = new Stack<>();
 
     private Task2() {
@@ -22,7 +23,7 @@ public final class Task2 {
                 clusterBuilder.append(ch);
             } else if (isCloseParenthesis(ch)) {
                 if (!isCorrect()) {
-                    throw new InputMismatchException("incorrect balance between open and close parenthesis");
+                    throw new InputMismatchException(INCORRECT_INPUT_CAUSE);
                 }
 
                 clusterBuilder.append(ch);
@@ -32,6 +33,10 @@ public final class Task2 {
                     clusterBuilder = new StringBuilder();
                 }
             }
+        }
+
+        if (!RPE_STACK.isEmpty()) {
+            throw new InputMismatchException(INCORRECT_INPUT_CAUSE);
         }
 
         return clusters;
