@@ -1,12 +1,10 @@
 package edu.hw3;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.provider.Arguments;
-import static edu.hw3.Task6.StockMarket;
 import static edu.hw3.Task6.Stock;
+import static edu.hw3.Task6.StockMarket;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class Task6Test {
