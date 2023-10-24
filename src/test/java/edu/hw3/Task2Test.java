@@ -1,10 +1,8 @@
 package edu.hw3;
 
-import org.apache.logging.log4j.LogManager;
+import java.util.ArrayList;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import java.util.ArrayList;
-import java.util.Collections;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class Task2Test {
