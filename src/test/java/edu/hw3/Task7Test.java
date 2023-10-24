@@ -1,10 +1,8 @@
 package edu.hw3;
 
+import java.util.TreeMap;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeMap;
 import static edu.hw3.Task7.NullIncludedComparator;
 import static org.assertj.core.api.Assertions.assertThat;
 
