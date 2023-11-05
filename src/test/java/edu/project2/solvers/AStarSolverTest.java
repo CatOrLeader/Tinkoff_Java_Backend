@@ -3,16 +3,15 @@ package edu.project2.solvers;
 import edu.project2.Cell;
 import edu.project2.Maze;
 import edu.project2.Position;
-import edu.project2.Side;
-import edu.project2.generators.GenerateAlgorithm;
 import edu.project2.generators.BinaryTreeAlgorithm;
+import edu.project2.generators.GenerateAlgorithm;
 import edu.project2.generators.SidewinderAlgorithm;
+import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class AStarSolverTest {

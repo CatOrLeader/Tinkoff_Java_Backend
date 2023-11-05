@@ -35,9 +35,10 @@ public class RendererTest {
         Maze maze = new Maze(width, height, generator);
 
         String actualValue = Renderer.render(maze, new ArrayList<>());
-        String expectedValue = "+-+\n" +
-                               "| |\n" +
-                               "+-+";
+        String expectedValue = """
+            +-+
+            | |
+            +-+""";
 
         assertThat(actualValue).containsIgnoringWhitespaces(expectedValue);
     }
@@ -54,9 +55,10 @@ public class RendererTest {
         List<Cell> path = new DfsSolver().findPath(maze, src, dest);
 
         String actualValue = Renderer.render(maze, path);
-        String expectedValue = "+-+\n" +
-                               "|X|\n" +
-                               "+-+";
+        String expectedValue = """
+            +-+
+            |X|
+            +-+""";
 
         assertThat(actualValue).containsIgnoringWhitespaces(expectedValue);
     }
