@@ -26,7 +26,6 @@ public final class Task2 {
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, year);
-        int daysInYear = calendar.getActualMaximum(Calendar.DAY_OF_YEAR);
 
         while (current.getYear() == year) {
             current = current.with(NEXT_FRIDAY);

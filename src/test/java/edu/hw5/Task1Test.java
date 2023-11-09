@@ -1,11 +1,10 @@
 package edu.hw5;
 
+import java.time.Duration;
+import java.time.format.DateTimeParseException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import java.time.Duration;
-import java.time.format.DateTimeParseException;
-import java.util.zip.DataFormatException;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class Task1Test {
