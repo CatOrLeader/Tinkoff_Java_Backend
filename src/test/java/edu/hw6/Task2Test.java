@@ -16,26 +16,26 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class Task2Test {
-    private static final String filename = "file.txt";
-    private static final String resourceFolder = Objects.requireNonNull(Task2Test.class.getClassLoader()
-        .getResource("edu/hw6/task2/")).getPath().substring(1);
-    private static final Path fileAbsPath = Paths.get(resourceFolder + filename);
-    private static final File folder = Path.of(resourceFolder).toFile();
+    private static final File folder = new File(Objects.requireNonNull(Thread.currentThread().getContextClassLoader()
+        .getResource("edu/hw6/task2")).getPath());
+    private static final File file = new File(Objects.requireNonNull(Thread.currentThread().getContextClassLoader()
+        .getResource("edu/hw6/task2/file.txt")).getPath());
+    private static final Path fileAbsPath = file.toPath();
 
     @BeforeAll
     static void createInitFile() throws IOException {
         new Task2Test().clearFiles();
-        Files.deleteIfExists(fileAbsPath);
-        Files.createFile(fileAbsPath);
+        Files.deleteIfExists(file.toPath());
+        Files.createFile(file.toPath());
     }
 
     @AfterEach
     void clearFiles() throws IOException {
-        for (File file : Objects.requireNonNull(folder.listFiles())) {
-            if (file.getName().equals(filename)) {
+        for (File current : Objects.requireNonNull(folder.listFiles())) {
+            if (current.getName().equals(file.getName())) {
                 continue;
             }
-            Files.delete(file.toPath());
+            Files.delete(current.toPath());
         }
     }
 

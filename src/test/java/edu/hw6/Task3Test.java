@@ -21,15 +21,17 @@ import static edu.hw6.Task3.AbstractFilter.regexContains;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public final class Task3Test {
-    private static final String filename = "file.txt";
-    private static final String svgName = "icon.svg";
-    private static final String pngName = "champloo.png";
-    private static final String resourceFolder = Objects.requireNonNull(Task3Test.class.getClassLoader()
-        .getResource("edu/hw6/task3/")).getPath().substring(1);
-    private static final Path fileAbsPath = Paths.get(resourceFolder + filename);
-    private static final Path svgAbsPath = Paths.get(resourceFolder + svgName);
-    private static final Path pngAbsPath = Paths.get(resourceFolder + pngName);
-    private static final File folder = Path.of(resourceFolder).toFile();
+    private static final File file = new File(Objects.requireNonNull(Thread.currentThread().getContextClassLoader()
+        .getResource("edu/hw6/task3/file.txt")).getPath());
+    private static final File svg = new File(Objects.requireNonNull(Thread.currentThread().getContextClassLoader()
+        .getResource("edu/hw6/task3/icon.svg")).getPath());
+    private static final File png = new File(Objects.requireNonNull(Thread.currentThread().getContextClassLoader()
+        .getResource("edu/hw6/task3/champloo.png")).getPath());
+    private static final Path fileAbsPath = file.toPath();
+    private static final Path svgAbsPath = svg.toPath();
+    private static final Path pngAbsPath = png.toPath();
+    private static final File folder = new File(Objects.requireNonNull(Thread.currentThread().getContextClassLoader()
+        .getResource("edu/hw6/task3")).getPath());
 
     public static final AbstractFilter regularFile = Files::isRegularFile;
     public static final AbstractFilter readable = Files::isReadable;

@@ -1,6 +1,7 @@
 package edu.hw6;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -13,10 +14,9 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class Task4Test {
-    private static final String filename = "file.txt";
-    private static final String resourceFolder = Objects.requireNonNull(Task4Test.class.getClassLoader()
-        .getResource("edu/hw6/task4/")).getPath().substring(1);
-    private static final Path fileAbsPath = Paths.get(resourceFolder + filename);
+    private static final File file = new File(Objects.requireNonNull(Thread.currentThread().getContextClassLoader()
+        .getResource("edu/hw6/task4/file.txt")).getPath());
+    private static final Path fileAbsPath = file.toPath();
 
     @BeforeEach
     void createInitFile() throws IOException {

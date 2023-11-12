@@ -27,12 +27,12 @@ public class Task1Test {
     private static File EMPTY;
 
     @BeforeEach void predefineFiles() throws URISyntaxException, IOException {
-        TO_READ = Paths.get(
-            Objects.requireNonNull(Task1Test.class.getResource("task1/fileToRead.txt")).toURI()).toFile();
-        TO_WRITE = Paths.get(
-            Objects.requireNonNull(Task1Test.class.getResource("task1/fileToWrite.txt")).toURI()).toFile();
-        EMPTY = Paths.get(
-            Objects.requireNonNull(Task1Test.class.getResource("task1/empty.txt")).toURI()).toFile();
+        TO_READ = new File(Objects.requireNonNull(Thread.currentThread().getContextClassLoader()
+            .getResource("edu/hw6/task1/fileToRead.txt")).getPath());
+        TO_WRITE = new File(Objects.requireNonNull(Thread.currentThread().getContextClassLoader()
+            .getResource("edu/hw6/task1/fileToWrite.txt")).getPath());
+        EMPTY = new File(Objects.requireNonNull(Thread.currentThread().getContextClassLoader()
+            .getResource("edu/hw6/task1/empty.txt")).getPath());
 
         BufferedWriter writerToRead = Files.newBufferedWriter(TO_READ.toPath(), StandardOpenOption.TRUNCATE_EXISTING);
         writerToRead.write("""
