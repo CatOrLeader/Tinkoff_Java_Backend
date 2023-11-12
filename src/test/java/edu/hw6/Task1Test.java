@@ -5,9 +5,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +24,7 @@ public class Task1Test {
     private static File TO_WRITE;
     private static File EMPTY;
 
-    @BeforeEach void predefineFiles() throws URISyntaxException, IOException {
+    @BeforeEach void predefineFiles() throws IOException {
         TO_READ = new File(Objects.requireNonNull(Thread.currentThread().getContextClassLoader()
             .getResource("edu/hw6/task1/fileToRead.txt")).getPath());
         TO_WRITE = new File(Objects.requireNonNull(Thread.currentThread().getContextClassLoader()
