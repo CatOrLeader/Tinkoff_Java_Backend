@@ -5,17 +5,16 @@ import edu.project2.Maze;
 import edu.project2.Position;
 import edu.project2.Side;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.random.RandomGenerator;
 import org.jetbrains.annotations.NotNull;
+import static edu.project2.generators.GenerateAlgorithmUtils.fillInitialCells;
+import static edu.project2.generators.GenerateAlgorithmUtils.reverseFill;
 
 public final class BinaryTreeAlgorithm implements GenerateAlgorithm {
     private static final Position[] NEIGHBOURS_DELTAS = new Position[] {
         new Position(1, 0), new Position(0, -1)
     };
-
-    private static final Position INITIAL = new Position(0, 0);
 
     @Override
     public void generate(@NotNull Maze maze) {
@@ -40,13 +39,6 @@ public final class BinaryTreeAlgorithm implements GenerateAlgorithm {
         }
     }
 
-    private void reverseFill(Cell[][] matrix, Position current, Side knocked) {
-        Position positionInKnockedDir = current.addition(knocked.getMove());
-        Cell cellInKnockedDirection = matrix[positionInKnockedDir.getY()][positionInKnockedDir.getX()];
-        Side knockedReversed = Side.parseSide(INITIAL.subtraction(knocked.getMove()));
-        cellInKnockedDirection.restrictedFrom().remove(knockedReversed);
-    }
-
     private Side getRandomWallToKnock(List<Side> possibleWallsToKnock) {
         int randomIndex = Math.abs(RandomGenerator.getDefault().nextInt()) % possibleWallsToKnock.size();
         return possibleWallsToKnock.get(randomIndex);
@@ -69,14 +61,5 @@ public final class BinaryTreeAlgorithm implements GenerateAlgorithm {
         }
 
         return possibleWalls;
-    }
-
-    private void fillInitialCells(Cell[][] matrix, int width, int height) {
-        Side[] sides = new Side[] {Side.WEST, Side.SOUTH, Side.EAST, Side.NORTH};
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                matrix[i][j] = new Cell(new ArrayList<>(Arrays.asList(sides)), new Position(j, i));
-            }
-        }
     }
 }
