@@ -33,6 +33,10 @@ public final class DfsSolver implements Solver {
             Position current = stack.pop();
             visited.add(current);
 
+            if (current.equals(dest)) {
+                break;
+            }
+
             for (Position neighboursPosition : neighbours(maze, current)) {
                 if (!visited.contains(neighboursPosition)) {
                     stack.push(neighboursPosition);
