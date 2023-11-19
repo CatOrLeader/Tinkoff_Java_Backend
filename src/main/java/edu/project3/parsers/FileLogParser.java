@@ -23,7 +23,6 @@ public final class FileLogParser implements LogParser {
     public Stream<LogRecord> parse(@NotNull Configuration configuration) {
         List<LogRecord> records = new ArrayList<>();
         List<Path> files = getMatchingFiles(configuration.path());
-        System.out.println(files);
         for (Path file : files) {
             records.addAll(parseFromFile(configuration, file));
         }
