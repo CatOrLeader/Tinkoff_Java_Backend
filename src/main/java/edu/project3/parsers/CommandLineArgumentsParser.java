@@ -1,7 +1,7 @@
 package edu.project3.parsers;
 
-import edu.project3.types.OutputFormat;
 import edu.project3.OptionsProvider;
+import edu.project3.types.OutputFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import org.apache.commons.cli.CommandLine;
