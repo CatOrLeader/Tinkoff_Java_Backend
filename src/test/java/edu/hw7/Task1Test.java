@@ -57,7 +57,7 @@ public class Task1Test {
 
     @Test
     @DisplayName("Incorrect initial and final values provided")
-    void incorrectInitialAndFinalValues() throws InterruptedException {
+    void incorrectInitialAndFinalValues() {
         AtomicInteger num = new AtomicInteger(25);
         int countOfThreads = 1;
         int finalNumber = -25;
@@ -69,7 +69,7 @@ public class Task1Test {
 
     @Test
     @DisplayName("Incorrect number of threads provided")
-    void incorrectAmountOfThreads() throws InterruptedException {
+    void incorrectAmountOfThreads() {
         AtomicInteger num = new AtomicInteger(0);
         int countOfThreads = 0;
         int finalNumber = 25;
