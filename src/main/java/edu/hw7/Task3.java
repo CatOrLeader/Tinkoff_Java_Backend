@@ -11,67 +11,75 @@ public final class Task3 {
     }
 
     public static final class SynchronizedPersonDatabase implements PersonDatabase {
-        private static final HashMap<Integer, Person> BY_ID = new HashMap<>();
-        private static final HashMap<String, List<Person>> BY_NAME = new HashMap<>();
-        private static final HashMap<String, List<Person>> BY_ADDRESS = new HashMap<>();
-        private static final HashMap<String, List<Person>> BY_PHONE_NUMBER = new HashMap<>();
+        private final HashMap<Integer, Person> byId;
+        private final HashMap<String, List<Person>> byName;
+        private final HashMap<String, List<Person>> byAddress;
+        private final HashMap<String, List<Person>> byPhoneNumber;
+
+        public SynchronizedPersonDatabase(
+        ) {
+            this.byId = new HashMap<>();
+            this.byName = new HashMap<>();
+            this.byAddress = new HashMap<>();
+            this.byPhoneNumber = new HashMap<>();
+        }
 
         @Override
         public synchronized void add(@NotNull Person person) {
-            BY_ID.put(person.id(), person);
+            byId.put(person.id(), person);
 
             if (person.name() != null) {
-                if (!BY_NAME.containsKey(person.name())) {
-                    BY_NAME.put(person.name(), new ArrayList<>());
+                if (!byName.containsKey(person.name())) {
+                    byName.put(person.name(), new ArrayList<>());
                 }
-                BY_NAME.get(person.name()).add(person);
+                byName.get(person.name()).add(person);
             }
 
             if (person.address() != null) {
-                if (!BY_ADDRESS.containsKey(person.address())) {
-                    BY_ADDRESS.put(person.address(), new ArrayList<>());
+                if (!byAddress.containsKey(person.address())) {
+                    byAddress.put(person.address(), new ArrayList<>());
                 }
-                BY_ADDRESS.get(person.address()).add(person);
+                byAddress.get(person.address()).add(person);
             }
 
             if (person.phoneNumber() != null) {
-                if (!BY_PHONE_NUMBER.containsKey(person.phoneNumber())) {
-                    BY_PHONE_NUMBER.put(person.phoneNumber(), new ArrayList<>());
+                if (!byPhoneNumber.containsKey(person.phoneNumber())) {
+                    byPhoneNumber.put(person.phoneNumber(), new ArrayList<>());
                 }
-                BY_PHONE_NUMBER.get(person.phoneNumber()).add(person);
+                byPhoneNumber.get(person.phoneNumber()).add(person);
             }
         }
 
         @Override
         public synchronized void delete(int id) {
-            Person person = BY_ID.get(id);
-            BY_ID.remove(id);
+            Person person = byId.get(id);
+            byId.remove(id);
 
             if (person.name() != null) {
-                BY_NAME.get(person.name()).remove(person);
-                if (BY_NAME.get(person.name()).isEmpty()) {
-                    BY_NAME.remove(person.name());
+                byName.get(person.name()).remove(person);
+                if (byName.get(person.name()).isEmpty()) {
+                    byName.remove(person.name());
                 }
             }
 
             if (person.address() != null) {
-                BY_ADDRESS.get(person.address()).remove(person);
-                if (BY_ADDRESS.get(person.address()).isEmpty()) {
-                    BY_ADDRESS.remove(person.address());
+                byAddress.get(person.address()).remove(person);
+                if (byAddress.get(person.address()).isEmpty()) {
+                    byAddress.remove(person.address());
                 }
             }
 
             if (person.phoneNumber() != null) {
-                BY_PHONE_NUMBER.get(person.phoneNumber()).remove(person);
-                if (BY_PHONE_NUMBER.get(person.phoneNumber()).isEmpty()) {
-                    BY_PHONE_NUMBER.remove(person.phoneNumber());
+                byPhoneNumber.get(person.phoneNumber()).remove(person);
+                if (byPhoneNumber.get(person.phoneNumber()).isEmpty()) {
+                    byPhoneNumber.remove(person.phoneNumber());
                 }
             }
         }
 
         @Override
         public @Nullable List<Person> findByName(@NotNull String name) {
-            List<Person> persons = BY_NAME.get(name);
+            List<Person> persons = byName.get(name);
             if (persons == null) {
                 return null;
             }
@@ -90,7 +98,7 @@ public final class Task3 {
 
         @Override
         public @Nullable List<Person> findByAddress(@NotNull String address) {
-            List<Person> persons = BY_ADDRESS.get(address);
+            List<Person> persons = byAddress.get(address);
             if (persons == null) {
                 return null;
             }
@@ -109,7 +117,7 @@ public final class Task3 {
 
         @Override
         public @Nullable List<Person> findByPhone(@NotNull String phone) {
-            List<Person> persons = BY_PHONE_NUMBER.get(phone);
+            List<Person> persons = byPhoneNumber.get(phone);
             if (persons == null) {
                 return null;
             }
