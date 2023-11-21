@@ -195,6 +195,8 @@ public class Task3Test {
     void givenSingleThread_FindByNameWithoutOtherField() {
         String name = "Olof";
         DB.add(new Person(4, name, null, null));
+        DB.add(new Person(5, name, "foo", null));
+        DB.add(new Person(6, name, null, "foo"));
 
         List<Person> actualValue = DB.findByName(name);
         List<Person> expectedValue = List.of(
@@ -203,6 +205,8 @@ public class Task3Test {
         );
 
         DB.delete(4);
+        DB.delete(5);
+        DB.delete(6);
 
         assertThat(actualValue).containsExactlyInAnyOrderElementsOf(expectedValue);
     }
@@ -212,6 +216,9 @@ public class Task3Test {
     void givenSingleThread_FindByAddressWithoutOtherField() {
         String address = "Lev st.";
         DB.add(new Person(4, null, address, null));
+        DB.add(new Person(5, "foo", address, null));
+        DB.add(new Person(6, null, address, "foo"));
+
 
         List<Person> actualValue = DB.findByAddress(address);
         List<Person> expectedValue = List.of(
@@ -219,6 +226,8 @@ public class Task3Test {
         );
 
         DB.delete(4);
+        DB.delete(5);
+        DB.delete(6);
 
         assertThat(actualValue).containsExactlyInAnyOrderElementsOf(expectedValue);
     }
@@ -228,6 +237,8 @@ public class Task3Test {
     void givenSingleThread_FindByPhoneNumberWithoutOtherField() {
         String number = "1234";
         DB.add(new Person(4, null, null, number));
+        DB.add(new Person(5, "foo", null, number));
+        DB.add(new Person(6, null, "foo", number));
 
         List<Person> actualValue = DB.findByPhone(number);
         List<Person> expectedValue = List.of(
@@ -235,6 +246,8 @@ public class Task3Test {
         );
 
         DB.delete(4);
+        DB.delete(5);
+        DB.delete(6);
 
         assertThat(actualValue).containsExactlyInAnyOrderElementsOf(expectedValue);
     }
