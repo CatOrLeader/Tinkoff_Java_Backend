@@ -11,6 +11,7 @@ import edu.project3.types.OutputFormat;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.stream.Stream;
 import org.apache.commons.cli.ParseException;
 
 public final class Application {
@@ -19,11 +20,16 @@ public final class Application {
 
     public static void main(String[] args) throws ParseException, IOException {
         Configuration configuration = prepareConfiguration(args);
+
         LogParser parser = prepareParser(configuration);
-        parser.parse(configuration);
+        Stream<LogRecord> records = parser.parse(configuration);
+
+        records.forEach(Metrics::collect);
         LogReportRenderer reportRenderer = prepareRenderer(configuration);
-        String report = reportRenderer.render(configuration, new LogReport());
-        writeToFile(configuration, report);
+        LogReport report = new LogReport(configuration);
+
+        String reportString = reportRenderer.render(report);
+        writeToFile(configuration, reportString);
     }
 
     private static Configuration prepareConfiguration(String[] args) throws ParseException {
