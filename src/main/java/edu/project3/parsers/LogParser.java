@@ -2,7 +2,6 @@ package edu.project3.parsers;
 
 import edu.project3.Configuration;
 import edu.project3.LogRecord;
-import edu.project3.Metrics;
 import edu.project3.types.HttpRequestType;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
@@ -16,23 +15,23 @@ import static edu.project3.LogRecord.Builder;
 public sealed interface LogParser permits FileLogParser, RemoteLogParser {
     Stream<LogRecord> parse(@NotNull Configuration configuration) throws IllegalArgumentException;
 
-    static @NotNull LogRecord parseLog(@NotNull String string)
-        throws IllegalArgumentException, ExceptionInInitializerError {
-        return parseAddress(Builder.newInstance(), string.trim().split(" ")).build();
-    }
-
-    static boolean isValid(Configuration configuration, LogRecord log) {
+    static boolean isInvalid(Configuration configuration, LogRecord log) {
         if (configuration.from() != null) {
-            if (log.getTime().isBefore(OffsetDateTime.from(configuration.from()))) {
-                return false;
+            if (log.getTime().toLocalDate().isBefore(configuration.from())) {
+                return true;
             }
         }
 
         if (configuration.to() != null) {
-            return !log.getTime().isAfter(OffsetDateTime.from(configuration.to()));
+            return log.getTime().toLocalDate().isAfter(configuration.to());
         }
 
-        return true;
+        return false;
+    }
+
+    static @NotNull LogRecord parseLog(@NotNull String string)
+        throws IllegalArgumentException, ExceptionInInitializerError {
+        return parseAddress(Builder.newInstance(), string.trim().split(" ")).build();
     }
 
     private static Builder parseAddress(Builder builder, String[] string) {
@@ -68,7 +67,6 @@ public sealed interface LogParser permits FileLogParser, RemoteLogParser {
 
             return parseRequest(builder, string);
         } catch (DateTimeParseException e) {
-            Metrics.UNPARSED_LOGS.add(String.join(" ", string));
             throw new IllegalArgumentException("Incorrect time provided");
         }
     }
@@ -80,7 +78,6 @@ public sealed interface LogParser permits FileLogParser, RemoteLogParser {
         Optional<HttpRequestType> maybeRequestType = HttpRequestType.parseRequestType(request);
 
         if (maybeRequestType.isEmpty()) {
-            Metrics.UNPARSED_LOGS.add(String.join(" ", string));
             throw new IllegalArgumentException("Incorrect request type provided");
         }
 
@@ -117,7 +114,6 @@ public sealed interface LogParser permits FileLogParser, RemoteLogParser {
 
             return parseBodyBytesSent(builder, string);
         } catch (NumberFormatException e) {
-            Metrics.UNPARSED_LOGS.add(String.join(" ", string));
             throw new IllegalArgumentException("Incorrect status provided");
         }
     }
@@ -130,7 +126,6 @@ public sealed interface LogParser permits FileLogParser, RemoteLogParser {
 
             return parseHttpReferer(builder, string);
         } catch (NumberFormatException e) {
-            Metrics.UNPARSED_LOGS.add(String.join(" ", string));
             throw new IllegalArgumentException("Incorrect number of bytes sent provided");
         }
     }

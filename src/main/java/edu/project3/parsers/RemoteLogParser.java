@@ -2,7 +2,6 @@ package edu.project3.parsers;
 
 import edu.project3.Configuration;
 import edu.project3.LogRecord;
-import edu.project3.Metrics;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -24,12 +23,11 @@ public final class RemoteLogParser implements LogParser {
         for (String logStr : logs) {
             LogRecord log = LogParser.parseLog(logStr);
 
-            if (!LogParser.isValid(configuration, log)) {
+            if (LogParser.isInvalid(configuration, log)) {
                 continue;
             }
 
             records.add(log);
-            Metrics.collect(configuration, log);
         }
 
         return records.stream();
