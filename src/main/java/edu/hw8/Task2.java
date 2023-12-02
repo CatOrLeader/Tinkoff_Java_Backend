@@ -103,7 +103,7 @@ public final class Task2 {
         }
 
         @Override
-        public void close() throws InterruptedException {
+        public void close() {
             isRunning = false;
             for (int i = 0; i < corePoolSize; i++) {
                 pool[i].interrupt();
