@@ -3,6 +3,8 @@ package edu.hw6;
 import java.net.DatagramSocket;
 import java.net.ServerSocket;
 import java.util.Map;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import static java.util.Map.entry;
 
 public final class Task6 {
@@ -11,6 +13,7 @@ public final class Task6 {
 
     private static final String SEPARATOR = " ".repeat(8);
     private static final int PORT_OUTPUT_OFFSET = 11;
+    private static final Logger LOGGER = LogManager.getLogger();
 
     @SuppressWarnings("checkstyle:MultipleStringLiterals") public static final Map<Integer, String> POSSIBLE_SERVICE =
         Map.ofEntries(
@@ -79,16 +82,14 @@ public final class Task6 {
     }
 
     private static int isPortBusy(int port) {
-        try {
-            ServerSocket socket = new ServerSocket(port);
-            socket.close();
+        try (ServerSocket ignored1 = new ServerSocket(port)) {
+            LOGGER.info("no tcp on " + port);
         } catch (Exception ignored) {
             return TCP_BUSY;
         }
 
-        try {
-            DatagramSocket socket = new DatagramSocket(port);
-            socket.close();
+        try (DatagramSocket ignored1 = new DatagramSocket(port)) {
+            LOGGER.info("no udp on " + port);
         } catch (Exception ignored) {
             return UDP_BUSY;
         }
