@@ -101,7 +101,7 @@ public final class Task3Test {
         List<Path> expectedFiles = List.of(svgAbsPath);
         List<Path> actualFiles = new ArrayList<>();
         try (
-            DirectoryStream<Path> actualEntries = Files.newDirectoryStream(folder.toPath(), globMatches("\\*.svg"))
+            DirectoryStream<Path> actualEntries = Files.newDirectoryStream(folder.toPath(), globMatches("*.svg"))
         ) {
             for (Path actualEntry : actualEntries) {
                 actualFiles.add(actualEntry);

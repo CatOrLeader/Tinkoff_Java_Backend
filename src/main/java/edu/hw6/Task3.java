@@ -2,8 +2,10 @@ package edu.hw6;
 
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.PathMatcher;
 import org.jetbrains.annotations.NotNull;
 
 public final class Task3 {
@@ -36,8 +38,11 @@ public final class Task3 {
         }
 
         static @NotNull AbstractFilter globMatches(@NotNull String glob) {
-            return (t) -> t.getFileName().toString().substring(t.getFileName().toString().lastIndexOf("."))
-                .equals(glob.substring(glob.lastIndexOf(".")));
+            PathMatcher matcher = FileSystems.getDefault().getPathMatcher(
+                "glob:" + glob
+            );
+
+            return (t) -> matcher.matches(t.getFileName());
         }
 
         static @NotNull AbstractFilter regexContains(@NotNull String regexp) {
