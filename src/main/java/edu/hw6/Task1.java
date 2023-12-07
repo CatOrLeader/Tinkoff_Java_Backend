@@ -3,6 +3,7 @@ package edu.hw6;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -40,15 +41,17 @@ public final class Task1 {
          * @param source file with new data
          */
         public void readFromFile(File source) throws IOException {
-            BufferedReader reader = new BufferedReader(new FileReader(source));
-            for (String line : reader.lines().toList()) {
-                if (line.isEmpty() || line.isBlank()) {
-                    continue;
+            try (BufferedReader reader = new BufferedReader(new FileReader(source))) {
+                for (String line : reader.lines().toList()) {
+                    if (line.isEmpty() || line.isBlank()) {
+                        continue;
+                    }
+                    String[] keyValue = line.trim().split(":");
+                    map.put(keyValue[0], keyValue[1]);
                 }
-                String[] keyValue = line.trim().split(":");
-                map.put(keyValue[0], keyValue[1]);
+            } catch (FileNotFoundException ex) {
+                throw new IOException("No file with such name exists");
             }
-            reader.close();
         }
 
         /**
@@ -58,13 +61,15 @@ public final class Task1 {
          * @param destination file; will be created if not exist already
          */
         public void writeToFile(File destination) throws IOException {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(destination));
-            for (var entry : map.entrySet()) {
-                String toFile = entry.getKey() + ":" + entry.getValue();
-                writer.write(toFile.trim());
-                writer.write("\n");
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(destination))) {
+                for (var entry : map.entrySet()) {
+                    String toFile = entry.getKey() + ":" + entry.getValue();
+                    writer.write(toFile.trim());
+                    writer.write("\n");
+                }
+            } catch (IOException ex) {
+                throw new IOException("Exception raised while writing to the file");
             }
-            writer.close();
         }
 
         // Default methods

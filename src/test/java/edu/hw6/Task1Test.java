@@ -96,8 +96,17 @@ public class Task1Test {
     }
 
     @Test
-    @DisplayName("Incorrect file provided")
-    void incorrectFileProvided() {
+    @DisplayName("Incorrect file provided, read")
+    void incorrectFileProvided_read() {
+        File nonExistingFile = new File("hidden.txt");
+        DiskMap diskMap = new DiskMap();
+
+        Assertions.assertThrows(IOException.class, () -> diskMap.readFromFile(nonExistingFile));
+    }
+
+    @Test
+    @DisplayName("Incorrect file provided, write")
+    void incorrectFileProvided_write() {
         File nonExistingFile = new File("hidden.txt");
         DiskMap diskMap = new DiskMap();
 
