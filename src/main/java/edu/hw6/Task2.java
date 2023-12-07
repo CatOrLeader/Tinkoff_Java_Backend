@@ -1,6 +1,11 @@
 package edu.hw6;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -30,7 +35,7 @@ public final class Task2 {
         }
 
         if (siblings.length == 1) {
-            createFIle(createFilename(current, 1));
+            createFIle(Path.of(createFilename(current, 1)));
             return;
         }
 
@@ -58,7 +63,10 @@ public final class Task2 {
         }
 
         int currentCopyIndex = getMissedCopyNumber(copyIndexes);
-        createFIle(createFilename(current, currentCopyIndex));
+
+        Path destination = Path.of(createFilename(current, currentCopyIndex));
+        createFIle(destination);
+        copyContent(path, destination);
     }
 
     private static int getMissedCopyNumber(List<Integer> arr) {
@@ -71,10 +79,25 @@ public final class Task2 {
         return arr.getLast() + 1;
     }
 
-    private static void createFIle(String filename) throws IOException {
+    private static void createFIle(Path file) throws IOException {
         Files.createFile(
-            Path.of(filename)
+            file
         );
+    }
+
+    private static void copyContent(Path src, Path dest) throws IOException {
+        try (
+            BufferedReader srcReader = new BufferedReader(new FileReader(src.toString()));
+            BufferedWriter destWriter = new BufferedWriter(new FileWriter(dest.toString()))
+        ) {
+            for (String str : srcReader.lines().toList()) {
+                destWriter.write(str);
+            }
+        } catch (FileNotFoundException srcEx) {
+            throw new IOException("Incorrect source file provided");
+        } catch (IOException ex) {
+            throw new IOException("Something went wrong while writing in the destination file");
+        }
     }
 
     private static String createFilename(File current, int copyIndex) {
@@ -96,11 +119,17 @@ public final class Task2 {
 
     private static String getFilenameWithoutExtension(File file) {
         String filename = file.getName();
+        if (!filename.contains(".")) {
+            return filename;
+        }
         return filename.substring(0, filename.lastIndexOf("."));
     }
 
     private static String getExtension(File file) {
         String filename = file.getName();
+        if (!filename.contains(".")) {
+            return "";
+        }
         return filename.substring(filename.lastIndexOf("."));
     }
 

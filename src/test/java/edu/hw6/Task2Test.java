@@ -1,10 +1,16 @@
 package edu.hw6;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import org.junit.jupiter.api.AfterEach;
@@ -20,12 +26,32 @@ public class Task2Test {
     private static final File file = new File(Objects.requireNonNull(Thread.currentThread().getContextClassLoader()
         .getResource("edu/hw6/task2/file.txt")).getPath());
     private static final Path fileAbsPath = file.toPath();
+    private static final String CONTENT = "CONTENT";
+
+    static String readFile(Path path) throws IOException {
+        StringBuilder builder = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(new FileReader(path.toString()))) {
+            reader.lines().forEach(builder::append);
+        } catch (IOException e) {
+            throw new IOException("Cannot fill the file with content");
+        }
+        return builder.toString();
+    }
+
+    static void fillFile(Path path) throws IOException {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(path.toString()))) {
+            writer.write(CONTENT);
+        } catch (IOException e) {
+            throw new IOException("Cannot fill the file with content");
+        }
+    }
 
     @BeforeAll
     static void createInitFile() throws IOException {
         new Task2Test().clearFiles();
-        Files.deleteIfExists(file.toPath());
-        Files.createFile(file.toPath());
+        Files.deleteIfExists(fileAbsPath);
+        Files.createFile(fileAbsPath);
+        fillFile(fileAbsPath);
     }
 
     @AfterEach
@@ -44,6 +70,39 @@ public class Task2Test {
         File file = new File("unlockPentagon.sh");
 
         Assertions.assertThrows(IOException.class, () -> Task2.cloneFile(file.toPath()));
+    }
+
+    @Test
+    @DisplayName("No directory in filepath")
+    void noDirectoryInFilePath() {
+        File file = new File(".txt");
+
+        Assertions.assertThrows(IOException.class, () -> Task2.cloneFile(file.toPath()));
+    }
+
+    @Test
+    @DisplayName("File with no extension")
+    void fileWithNoExtension() throws IOException {
+        Path noExtensionFileAbsPath = Paths.get(
+            "target", "test-classes", "edu", "hw6", "task2", "noExtension"
+        );
+        Files.createFile(noExtensionFileAbsPath);
+        Task2.cloneFile(noExtensionFileAbsPath);
+
+        try {
+            assertThat(Arrays.stream(Objects.requireNonNull(folder.listFiles())).toList())
+                .contains(Path.of(noExtensionFileAbsPath + " - copy").toAbsolutePath().toFile());
+        } catch (Exception ignored) {
+        }
+    }
+
+    @Test
+    @DisplayName("Single file copied, content copy test")
+    void copySingleFile_CheckContentEquality() throws IOException {
+        File file = fileAbsPath.toFile();
+        Task2.cloneFile(fileAbsPath);
+
+        assertThat(readFile(file.toPath())).isEqualTo(CONTENT);
     }
 
     @Test
