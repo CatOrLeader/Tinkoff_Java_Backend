@@ -38,8 +38,8 @@ public class Task2Test {
         return builder.toString();
     }
 
-    static void fillFile(Path path) throws IOException {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(path.toString()))) {
+    static void fillFile() throws IOException {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(Task2Test.fileAbsPath.toString()))) {
             writer.write(CONTENT);
         } catch (IOException e) {
             throw new IOException("Cannot fill the file with content");
@@ -51,7 +51,7 @@ public class Task2Test {
         new Task2Test().clearFiles();
         Files.deleteIfExists(fileAbsPath);
         Files.createFile(fileAbsPath);
-        fillFile(fileAbsPath);
+        fillFile();
     }
 
     @AfterEach
