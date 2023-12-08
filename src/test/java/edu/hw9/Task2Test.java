@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class Task2Test {
-    private static final Path ROOT = Paths.get("src", "test", "resources", "edu", "hw9");
+    private static final Path ROOT = Paths.get("src", "test", "resources", "edu", "hw9", "task2");
     private static final File FILE1 = new File(Paths.get(ROOT.toString(), "file1.txt").toString());
     private static final File FILE2 = new File(Paths.get(ROOT.toString(), "file2.txt").toString());
 
