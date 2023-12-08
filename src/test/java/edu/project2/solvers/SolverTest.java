@@ -15,11 +15,12 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class SolversTest {
+public class SolverTest {
     static Arguments[] solvers() {
         return new Arguments[]{
             Arguments.of(new AstarSolver()),
-            Arguments.of(new DfsSolver())
+            Arguments.of(new DfsSolver()),
+            Arguments.of(new DfsRecursiveSolver())
         };
     }
 
