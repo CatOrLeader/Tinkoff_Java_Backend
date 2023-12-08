@@ -67,7 +67,7 @@ public class Task1Test {
 
         assertThatExceptionOfType(IOException.class)
             .isThrownBy(() ->
-                diskMap.switchCurrentMappedFile(nonExistingFile));
+                diskMap.switchCurrentMappedFile(nonExistingFile, true));
     }
 
     @Test
@@ -145,10 +145,10 @@ public class Task1Test {
     }
 
     @Test
-    @DisplayName("Test map writing possibility")
-    void writeToFile() throws IOException {
+    @DisplayName("Test map writing possibility, remain data")
+    void writeToFile_RemainData() throws IOException {
         DiskMap diskMap = new DiskMap(TO_READ);
-        diskMap.switchCurrentMappedFile(TO_WRITE);
+        diskMap.switchCurrentMappedFile(TO_WRITE, true);
         diskMap.writeToFile(TO_WRITE);
 
         try (BufferedReader reader = new BufferedReader(new FileReader(TO_WRITE))) {
@@ -165,10 +165,29 @@ public class Task1Test {
     }
 
     @Test
+    @DisplayName("Test map writing possibility")
+    void writeToFile_DontRemainData() throws IOException {
+        DiskMap diskMap = new DiskMap(TO_READ);
+        diskMap.switchCurrentMappedFile(TO_WRITE, false);
+        diskMap.writeToFile(TO_WRITE);
+        diskMap.put("new", "value");
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(TO_WRITE))) {
+            List<String> actualValues = new ArrayList<>();
+            reader.lines().forEach(actualValues::add);
+            List<String> expectedValues = List.of(
+                "new:value"
+            );
+
+            assertThat(actualValues).containsExactlyInAnyOrderElementsOf(expectedValues);
+        }
+    }
+
+    @Test
     @DisplayName("Test map writing possibility, put something and read file to check")
     void writeToFile_PutSomethingInMap_ReadFile() throws IOException {
         DiskMap diskMap = new DiskMap(TO_READ);
-        diskMap.switchCurrentMappedFile(TO_WRITE);
+        diskMap.switchCurrentMappedFile(TO_WRITE, true);
         diskMap.put("test", "added");
 
         try (BufferedReader reader = new BufferedReader(new FileReader(TO_WRITE))) {

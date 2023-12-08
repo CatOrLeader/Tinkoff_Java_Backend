@@ -39,12 +39,15 @@ public final class Task1 {
             readFromCurrentMappedFile();
         }
 
-        public void switchCurrentMappedFile(@NotNull File newSource) throws IOException {
+        public void switchCurrentMappedFile(@NotNull File newSource, boolean remainDataInMap) throws IOException {
             if (!newSource.exists()) {
                 throw new IOException("New source file does not exists");
             }
 
             writeToCurrentMappedFile();
+            if (!remainDataInMap) {
+                map.clear();
+            }
             currentMappedFile = newSource;
             readFromCurrentMappedFile();
         }
