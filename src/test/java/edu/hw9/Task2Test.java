@@ -23,7 +23,7 @@ public class Task2Test {
     static void startUp() throws IOException {
         cleanUp();
         try {
-            Files.createDirectory(ROOT);
+            Files.createDirectories(ROOT);
         } catch (FileAlreadyExistsException ignored) {
         }
         for (int i = 0; i < 1001; i++) {
