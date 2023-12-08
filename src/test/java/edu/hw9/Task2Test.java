@@ -3,6 +3,7 @@ package edu.hw9;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -21,6 +22,10 @@ public class Task2Test {
     @BeforeAll
     static void startUp() throws IOException {
         cleanUp();
+        try {
+            Files.createDirectory(ROOT);
+        } catch (FileAlreadyExistsException ignored) {
+        }
         for (int i = 0; i < 1001; i++) {
             Files.createFile(Paths.get(ROOT.toString(), String.valueOf(i)));
         }
@@ -34,9 +39,13 @@ public class Task2Test {
 
     @AfterAll
     static void cleanUp() throws IOException {
+        if (!ROOT.toFile().exists()) {
+            return;
+        }
         for (File file : Objects.requireNonNull(ROOT.toFile().listFiles())) {
             Files.delete(file.toPath());
         }
+        Files.deleteIfExists(ROOT);
     }
 
     @Test
