@@ -28,10 +28,29 @@ public final class Task1 {
      *     </p>
      */
     public static class DiskMap implements Map<String, String> {
+        private static final String MAPPED_FILE_EXCEPTION = "Exception raised while trying to read from mapped file";
+
+        private File currentMappedFile;
         private final Map<String, String> map;
 
-        public DiskMap() {
+        public DiskMap(@NotNull File source) {
+            currentMappedFile = source;
             map = new HashMap<>();
+            readFromCurrentMappedFile();
+        }
+
+        public void switchCurrentMappedFile(@NotNull File newSource) throws IOException {
+            if (!newSource.exists()) {
+                throw new IOException("New source file does not exists");
+            }
+
+            writeToCurrentMappedFile();
+            currentMappedFile = newSource;
+            readFromCurrentMappedFile();
+        }
+
+        public @NotNull File getCurrentMappedFile() {
+            return currentMappedFile;
         }
 
         /**
@@ -50,7 +69,15 @@ public final class Task1 {
                     map.put(keyValue[0], keyValue[1]);
                 }
             } catch (FileNotFoundException ex) {
-                throw new IOException("No file with such name exists");
+                throw new IOException("No file with such name exists: " + source);
+            }
+        }
+
+        private void readFromCurrentMappedFile() {
+            try {
+                readFromFile(currentMappedFile);
+            } catch (IOException exception) {
+                throw new RuntimeException(MAPPED_FILE_EXCEPTION);
             }
         }
 
@@ -68,72 +95,97 @@ public final class Task1 {
                     writer.write("\n");
                 }
             } catch (IOException ex) {
-                throw new IOException("Exception raised while writing to the file");
+                throw new IOException("Exception raised while writing to the file " + destination);
+            }
+        }
+
+        private void writeToCurrentMappedFile() {
+            try {
+                writeToFile(currentMappedFile);
+            } catch (IOException exception) {
+                throw new RuntimeException(MAPPED_FILE_EXCEPTION);
             }
         }
 
         // Default methods
         @Override
         public int size() {
+            readFromCurrentMappedFile();
             return map.size();
         }
 
         @Override
         public boolean isEmpty() {
+            readFromCurrentMappedFile();
             return map.isEmpty();
         }
 
         @Override
         public boolean containsKey(Object key) {
+            readFromCurrentMappedFile();
             return map.containsKey(key);
         }
 
         @Override
         public boolean containsValue(Object value) {
+            readFromCurrentMappedFile();
             return map.containsValue(value);
         }
 
         @Override
         public String get(Object key) {
+            readFromCurrentMappedFile();
             return map.get(key);
         }
 
         @Nullable
         @Override
         public String put(String key, String value) {
-            return map.put(key, value);
+            readFromCurrentMappedFile();
+            String ret = map.put(key, value);
+            writeToCurrentMappedFile();
+            return ret;
         }
 
         @Override
         public String remove(Object key) {
-            return map.remove(key);
+            readFromCurrentMappedFile();
+            String ret = map.remove(key);
+            writeToCurrentMappedFile();
+            return ret;
         }
 
         @Override
         public void putAll(@NotNull Map<? extends String, ? extends String> m) {
+            readFromCurrentMappedFile();
             map.putAll(m);
+            writeToCurrentMappedFile();
         }
 
         @Override
         public void clear() {
             map.clear();
+            writeToCurrentMappedFile();
         }
 
         @NotNull
         @Override
         public Set<String> keySet() {
+            readFromCurrentMappedFile();
             return map.keySet();
         }
 
         @NotNull
         @Override
         public Collection<String> values() {
+            readFromCurrentMappedFile();
             return map.values();
         }
 
         @NotNull
         @Override
         public Set<Entry<String, String>> entrySet() {
+            readFromCurrentMappedFile();
             return map.entrySet();
         }
     }
