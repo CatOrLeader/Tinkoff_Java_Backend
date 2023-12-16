@@ -1,6 +1,5 @@
 package edu.project4;
 
-import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -18,7 +17,7 @@ public final class ImageUtils {
         for (int i = 0; i < img.height(); i++) {
             for (int j = 0; j < img.width(); j++) {
                 Pixel pixel = Objects.requireNonNull(img.pixel(j, i));
-                image.setRGB(j, i, pixel.getRgb().toRgb());
+                image.setRGB(j, i, pixel.getColor().getRGB());
             }
         }
 

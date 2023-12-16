@@ -1,16 +1,17 @@
 package edu.project4;
 
+import java.awt.Color;
 import org.jetbrains.annotations.NotNull;
 
 public final class Pixel {
     private Position position;
-    private RGBConstants rgb;
+    private Color color;
     private int hits;
     private double normal;
 
-    public Pixel(@NotNull Position position, @NotNull RGBConstants rgb, int hits, int normal) {
+    public Pixel(@NotNull Position position, @NotNull Color color, int hits, int normal) {
         this.position = position;
-        this.rgb = rgb;
+        this.color = color;
         this.hits = hits;
         this.normal = 0;
     }
@@ -23,19 +24,19 @@ public final class Pixel {
         this.position = position;
     }
 
-    public RGBConstants getRgb() {
-        return rgb;
+    public synchronized Color getColor() {
+        return color;
     }
 
-    public void setRgb(RGBConstants rgb) {
-        this.rgb = rgb;
+    public synchronized void setColor(Color color) {
+        this.color = color;
     }
 
-    public int getHits() {
+    public synchronized int getHits() {
         return hits;
     }
 
-    public void setHits(int hits) {
+    public synchronized void setHits(int hits) {
         this.hits = hits;
     }
 
@@ -45,5 +46,47 @@ public final class Pixel {
 
     public void setNormal(double normal) {
         this.normal = normal;
+    }
+
+    public static Pixel getDefault(@NotNull Position position) {
+        return new Pixel(
+            position,
+            Color.BLACK,
+            0, 0
+        );
+    }
+
+    @Override public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        Pixel pixel = (Pixel) o;
+
+        if (hits != pixel.hits) {
+            return false;
+        }
+        if (Double.compare(normal, pixel.normal) != 0) {
+            return false;
+        }
+        if (!position.equals(pixel.position)) {
+            return false;
+        }
+        return color.equals(pixel.color);
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = position.hashCode();
+        result = 31 * result + color.hashCode();
+        result = 31 * result + hits;
+        temp = Double.doubleToLongBits(normal);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        return result;
     }
 }

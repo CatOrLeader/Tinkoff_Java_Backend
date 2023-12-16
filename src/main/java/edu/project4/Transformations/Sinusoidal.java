@@ -6,6 +6,6 @@ import org.jetbrains.annotations.NotNull;
 public final class Sinusoidal implements Transformation {
     @Override
     public @NotNull Position apply(@NotNull Position position) {
-        return new Position(Math.sin(position.getX()), Math.sin(position.getY()));
+        return new Position(Math.sin(position.x()), Math.sin(position.y()));
     }
 }

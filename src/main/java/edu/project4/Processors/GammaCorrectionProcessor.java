@@ -1,15 +1,16 @@
 package edu.project4.Processors;
 
 import edu.project4.FractalImage;
-import edu.project4.RGBConstants;
+import java.awt.Color;
 import org.jetbrains.annotations.NotNull;
 
 public final class GammaCorrectionProcessor {
     private GammaCorrectionProcessor() {
     }
 
+    private static final double GAMMA = 3;
+
     public static void process(@NotNull FractalImage image) {
-        final double gamma = 2.2;
         double max = 0.0;
 
         var pixels = image.pixels();
@@ -33,14 +34,14 @@ public final class GammaCorrectionProcessor {
                 double normal = pixels[i][j].getNormal() / max;
                 pixels[i][j].setNormal(normal);
 
-                RGBConstants oldConstants = pixels[i][j].getRgb();
-                RGBConstants newConstants = new RGBConstants(
-                    (int) (oldConstants.r() * Math.pow(normal, (1.0 / gamma))),
-                    (int) (oldConstants.g() * Math.pow(normal, (1.0 / gamma))),
-                    (int) (oldConstants.b() * Math.pow(normal, (1.0 / gamma)))
+                Color oldColor = pixels[i][j].getColor();
+                Color newColor = new Color(
+                    (int) (oldColor.getRed() * Math.pow(normal, (1.0 / GAMMA))),
+                    (int) (oldColor.getGreen() * Math.pow(normal, (1.0 / GAMMA))),
+                    (int) (oldColor.getBlue() * Math.pow(normal, (1.0 / GAMMA)))
                 );
 
-                pixels[i][j].setRgb(newConstants);
+                pixels[i][j].setColor(newColor);
             }
         }
     }
