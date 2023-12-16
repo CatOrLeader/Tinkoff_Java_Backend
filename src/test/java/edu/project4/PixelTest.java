@@ -15,7 +15,7 @@ public class PixelTest {
         Pixel expectedPixel = new Pixel(
             position,
             Color.BLACK,
-            0, 0
+            0
         );
 
         assertThat(actualPixel).isEqualTo(expectedPixel);
@@ -28,7 +28,7 @@ public class PixelTest {
         Pixel pixel2 = new Pixel(
             new Position(0, 0),
             Color.BLACK,
-            0, 0
+            0
         );
         pixel2.setPosition(pixel1.getPosition());
 

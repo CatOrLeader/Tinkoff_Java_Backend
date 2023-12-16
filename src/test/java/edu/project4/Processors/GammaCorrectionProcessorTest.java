@@ -18,7 +18,7 @@ public class GammaCorrectionProcessorTest {
         image.setPixel(1, 1, new Pixel(
             new Position(1, 1),
             commonInitialColor,
-            10, 0
+            10
         ));
         Arrays.stream(image.pixels()).forEach(pixelRow -> Arrays.stream(pixelRow).forEach(
             pixel -> {

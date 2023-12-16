@@ -9,7 +9,7 @@ public final class Pixel {
     private int hits;
     private double normal;
 
-    public Pixel(@NotNull Position position, @NotNull Color color, int hits, int normal) {
+    public Pixel(@NotNull Position position, @NotNull Color color, int hits) {
         this.position = position;
         this.color = color;
         this.hits = hits;
@@ -52,7 +52,7 @@ public final class Pixel {
         return new Pixel(
             position,
             Color.BLACK,
-            0, 0
+            0
         );
     }
 
