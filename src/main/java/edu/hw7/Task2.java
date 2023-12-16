@@ -1,7 +1,6 @@
 package edu.hw7;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.stream.LongStream;
 
 public final class Task2 {
     private Task2() {
@@ -12,12 +11,7 @@ public final class Task2 {
             throw new IllegalArgumentException("Incorrect n provided");
         }
 
-        List<Long> numbers = new ArrayList<>();
-        for (int i = 1; i <= n; i++) {
-            numbers.add((long) i);
-        }
-
-        return numbers.parallelStream()
+        return LongStream.range(1, n + 1).parallel()
             .reduce((a, b) -> a * b).orElseThrow();
     }
 }
