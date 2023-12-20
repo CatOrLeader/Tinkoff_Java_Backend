@@ -78,7 +78,7 @@ public final class Task3 {
         }
 
         @Override
-        public @Nullable List<Person> findByName(@NotNull String name) {
+        public synchronized @Nullable List<Person> findByName(@NotNull String name) {
             List<Person> persons = byName.get(name);
             if (persons == null) {
                 return null;
@@ -97,7 +97,7 @@ public final class Task3 {
         }
 
         @Override
-        public @Nullable List<Person> findByAddress(@NotNull String address) {
+        public synchronized @Nullable List<Person> findByAddress(@NotNull String address) {
             List<Person> persons = byAddress.get(address);
             if (persons == null) {
                 return null;
@@ -116,7 +116,7 @@ public final class Task3 {
         }
 
         @Override
-        public @Nullable List<Person> findByPhone(@NotNull String phone) {
+        public synchronized @Nullable List<Person> findByPhone(@NotNull String phone) {
             List<Person> persons = byPhoneNumber.get(phone);
             if (persons == null) {
                 return null;
