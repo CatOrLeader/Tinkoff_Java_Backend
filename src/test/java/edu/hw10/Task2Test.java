@@ -7,6 +7,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static edu.hw10.Task2.Cache;
@@ -16,6 +18,11 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatExceptionOf
 public class Task2Test {
     private static final Path DIRECTORY = Paths.get("src", "test", "resources", "edu", "hw10", "task2");
     private static final Path STORAGE = DIRECTORY.resolve(Path.of("temp.txt"));
+
+    @BeforeAll
+    public static void setup() throws IOException {
+        Files.createDirectories(DIRECTORY);
+    }
 
     @AfterEach
     public void tearUp() throws IOException {
