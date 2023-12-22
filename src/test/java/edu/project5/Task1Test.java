@@ -20,22 +20,13 @@ import org.openjdk.jmh.runner.options.OptionsBuilder;
 import org.openjdk.jmh.runner.options.TimeValue;
 
 public class Task1Test {
-    @State(Scope.Thread)
-    public static class ReflectionBenchmark {
+    @State(Scope.Thread) public static class ReflectionBenchmark {
         public static void main(String[] args) throws RunnerException {
-            Options options = new OptionsBuilder()
-                .include(ReflectionBenchmark.class.getSimpleName())
-                .shouldFailOnError(true)
-                .shouldDoGC(true)
-                .mode(Mode.AverageTime)
-                .timeUnit(TimeUnit.NANOSECONDS)
-                .forks(1)
-                .warmupForks(1)
-                .warmupIterations(1)
-                .warmupTime(TimeValue.seconds(5))
-                .measurementIterations(1)
-                .measurementTime(TimeValue.seconds(5))
-                .build();
+            Options options =
+                new OptionsBuilder().include(ReflectionBenchmark.class.getSimpleName()).shouldFailOnError(true)
+                    .shouldDoGC(true).mode(Mode.AverageTime).timeUnit(TimeUnit.NANOSECONDS).forks(1).warmupForks(1)
+                    .warmupIterations(1).warmupTime(TimeValue.seconds(5)).measurementIterations(1)
+                    .measurementTime(TimeValue.seconds(5)).build();
 
             new Runner(options).run();
         }
@@ -54,8 +45,7 @@ public class Task1Test {
         private MethodHandle methodHandle;
         private Interface anInterface;
 
-        @Setup
-        public void setup() throws Throwable {
+        @Setup public void setup() throws Throwable {
             student = new Student("Artur", "Mukhutdinov");
             method = Student.class.getMethod(methodName);
             methodHandle =
@@ -70,26 +60,22 @@ public class Task1Test {
             ).getTarget().invokeExact();
         }
 
-        @Benchmark
-        public void directAccess(Blackhole bh) {
+        @Benchmark public void directAccess(Blackhole bh) {
             String name = student.name();
             bh.consume(name);
         }
 
-        @Benchmark
-        public void reflection(Blackhole bh) throws InvocationTargetException, IllegalAccessException {
+        @Benchmark public void reflection(Blackhole bh) throws InvocationTargetException, IllegalAccessException {
             String name = (String) method.invoke(student);
             bh.consume(name);
         }
 
-        @Benchmark
-        public void methodHandle(Blackhole bh) throws Throwable {
+        @Benchmark public void methodHandle(Blackhole bh) throws Throwable {
             String name = (String) methodHandle.invoke(student);
             bh.consume(name);
         }
 
-        @Benchmark
-        public void lambdaMetaFactory(Blackhole bh) throws Throwable {
+        @Benchmark public void lambdaMetaFactory(Blackhole bh) throws Throwable {
             String name = anInterface.name(student);
             bh.consume(name);
         }
