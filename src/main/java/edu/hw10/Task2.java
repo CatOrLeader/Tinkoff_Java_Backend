@@ -28,9 +28,9 @@ public final class Task2 {
         boolean persist() default false;
 
         /**
-         * Provide a folder for the caching of the methods information and return values
+         * Provide a file for the caching of the methods information and return values
          *
-         * @return string representation (path) of the folder
+         * @return string representation (path) of the file
          */
         String onDiskStorage() default "";
     }
