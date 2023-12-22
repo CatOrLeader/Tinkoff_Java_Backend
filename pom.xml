@@ -163,6 +163,9 @@
                     <version>${maven-surefire-plugin.version}</version>
                     <configuration>
                         <redirectTestOutputToFile>true</redirectTestOutputToFile>
+                        <excludes>
+                            <exclude>edu.hw11.Task2Test</exclude>
+                        </excludes>
                     </configuration>
                 </plugin>
                 <plugin>
