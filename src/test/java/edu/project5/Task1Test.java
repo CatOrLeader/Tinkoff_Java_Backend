@@ -75,7 +75,7 @@ public class Task1Test {
             bh.consume(name);
         }
 
-        @Benchmark public void lambdaMetaFactory(Blackhole bh) throws Throwable {
+        @Benchmark public void lambdaMetaFactory(Blackhole bh) {
             String name = anInterface.name(student);
             bh.consume(name);
         }
