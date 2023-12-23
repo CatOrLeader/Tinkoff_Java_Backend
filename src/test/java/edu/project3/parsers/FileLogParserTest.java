@@ -142,7 +142,7 @@ public class FileLogParserTest {
     @Test
     @DisplayName("Correct pattern provided, all files")
     void correctPattern_allFiles() {
-        String pattern = "src/**/*.txt";
+        String pattern = "src/**/*logs.txt";
         Configuration configuration = new Configuration(pattern,
             null, null, OutputFormat.MARKDOWN
         );

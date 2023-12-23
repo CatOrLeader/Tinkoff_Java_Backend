@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
+import org.apache.logging.log4j.LogManager;
 import org.jetbrains.annotations.NotNull;
 
 public final class FileLogParser implements LogParser {
@@ -80,9 +81,10 @@ public final class FileLogParser implements LogParser {
     private static List<Path> getFromWildcard(String pattern) throws IOException {
         List<Path> paths = new ArrayList<>();
 
-        Path root = Path.of(System.getProperty("user.dir"));
+        Path root = Path.of(System.getProperty("user.dir")).toAbsolutePath();
         PathMatcher matcher = FileSystems.getDefault().getPathMatcher(
             "glob:" + pattern);
+        LogManager.getLogger().info("BIG " + root);
 
         Files.walkFileTree(root, new SimpleFileVisitor<>() {
                 @Override
@@ -91,6 +93,7 @@ public final class FileLogParser implements LogParser {
                         return FileVisitResult.CONTINUE;
                     }
 
+                    LogManager.getLogger().info(file);
                     if (matcher.matches(root.relativize(file))) {
                         paths.add(file);
                     }
