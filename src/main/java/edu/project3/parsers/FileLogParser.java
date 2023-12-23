@@ -84,6 +84,8 @@ public final class FileLogParser implements LogParser {
         PathMatcher matcher = FileSystems.getDefault().getPathMatcher(
             "glob:" + pattern);
 
+        System.out.println(" BIG " + root);
+
         Files.walkFileTree(root, new SimpleFileVisitor<>() {
                 @Override
                 public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
@@ -91,6 +93,7 @@ public final class FileLogParser implements LogParser {
                         return FileVisitResult.CONTINUE;
                     }
 
+                    System.out.println(file);
                     if (matcher.matches(root.relativize(file))) {
                         paths.add(file);
                     }
