@@ -6,6 +6,7 @@ import java.time.ZoneOffset;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class LogRecordTest {
     private static final String THROWABLE_MSG = "Log is not assembled correctly, some fields are missing";
@@ -160,5 +161,35 @@ public class LogRecordTest {
         assertThatExceptionOfType(ExceptionInInitializerError.class)
             .isThrownBy(builder::build)
             .withMessage(THROWABLE_MSG);
+    }
+
+    @Test
+    @DisplayName("Correct equality")
+    void correctEquality() {
+        LogRecord.Builder builder = LogRecord.Builder.newInstance()
+            .setUser("User")
+            .setTime(OffsetDateTime.of(2023, 11, 2, 22, 11, 0, 0, ZoneOffset.UTC))
+            .setRequest(HttpRequestType.GET)
+            .setResource("Resource")
+            .setProtocol("Protocol")
+            .setStatus(200)
+            .setAddress("a")
+            .setBodyBytesSent(0)
+            .setHttpReferer("Referer")
+            .setHttpUserAgent("Agent");
+
+        LogRecord.Builder builderSecond = LogRecord.Builder.newInstance()
+            .setUser("User")
+            .setTime(OffsetDateTime.of(2023, 11, 2, 22, 11, 0, 0, ZoneOffset.UTC))
+            .setRequest(HttpRequestType.GET)
+            .setResource("Resource")
+            .setProtocol("Protocol")
+            .setStatus(200)
+            .setAddress("a")
+            .setBodyBytesSent(0)
+            .setHttpReferer("Referer")
+            .setHttpUserAgent("Agent");
+
+        assertThat(builder.build()).isEqualTo(builderSecond.build());
     }
 }

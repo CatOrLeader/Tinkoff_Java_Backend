@@ -33,6 +33,19 @@ public final class Metrics {
         fillPopularAgent(log);
     }
 
+    public static void clear() {
+        requestCount = 0;
+        POPULAR_ADDRESSES.clear();
+        POPULAR_USERS.clear();
+        POPULAR_REQUESTS.clear();
+        POPULAR_RESOURCES.clear();
+        POPULAR_PROTOCOLS.clear();
+        POPULAR_STATUSES.clear();
+        overallBytesSent = 0;
+        POPULAR_HTTP_REFERRERS.clear();
+        POPULAR_HTTP_AGENTS.clear();
+    }
+
     public static long getMeanBytes() {
         return overallBytesSent / requestCount;
     }
