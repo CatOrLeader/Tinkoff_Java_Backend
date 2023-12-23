@@ -81,10 +81,9 @@ public final class FileLogParser implements LogParser {
     private static List<Path> getFromWildcard(String pattern) throws IOException {
         List<Path> paths = new ArrayList<>();
 
-        Path root = Path.of(System.getProperty("user.dir")).toAbsolutePath();
+        Path root = Path.of(System.getProperty("user.dir"));
         PathMatcher matcher = FileSystems.getDefault().getPathMatcher(
             "glob:" + pattern);
-        LogManager.getLogger().info("BIG " + root);
 
         Files.walkFileTree(root, new SimpleFileVisitor<>() {
                 @Override
@@ -93,7 +92,6 @@ public final class FileLogParser implements LogParser {
                         return FileVisitResult.CONTINUE;
                     }
 
-                    LogManager.getLogger().info(file);
                     if (matcher.matches(root.relativize(file))) {
                         paths.add(file);
                     }

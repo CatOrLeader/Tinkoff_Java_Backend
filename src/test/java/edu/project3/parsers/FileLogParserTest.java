@@ -142,6 +142,7 @@ public class FileLogParserTest {
     @Test
     @DisplayName("Correct pattern provided, all files")
     void correctPattern_allFiles() {
+        System.out.println(Path.of(System.getProperty("user.dir")));
         String pattern = "src/**/*logs.txt";
         Configuration configuration = new Configuration(pattern,
             null, null, OutputFormat.MARKDOWN
