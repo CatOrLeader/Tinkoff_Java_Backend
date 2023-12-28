@@ -34,7 +34,7 @@ public class MarkdownLogReportRendererTest {
             Metrics.collect(RECORD);
         }
 
-        LocalDate date = LocalDate.now();
+        LocalDate date = LocalDate.of(2023, 12, 31);
         Configuration configuration = new Configuration("path", date, date, OutputFormat.MARKDOWN);
         LogReport report = new LogReport(configuration);
         LogReportRenderer reportRenderer = new MarkdownLogReportRenderer();
@@ -48,8 +48,8 @@ public class MarkdownLogReportRendererTest {
         | Метрика                                                                                                                      | Значение                                                                                                                     |
         |:----------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------:|
         | Ресурс (-ы)                                                                                                                  | path                                                                                                                         |
-        | Начальная дата                                                                                                               | 2023-12-23                                                                                                                   |
-        | Конечная дата                                                                                                                | 2023-12-23                                                                                                                   |
+        | Начальная дата                                                                                                               | 2023-12-31                                                                                                                   |
+        | Конечная дата                                                                                                                | 2023-12-31                                                                                                                   |
         | Количество запросов                                                                                                          | 3                                                                                                                            |
         | Общий размер ответов                                                                                                         | 0                                                                                                                            |
         | Средний размер ответа                                                                                                        | 0                                                                                                                            |
