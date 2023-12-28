@@ -7,6 +7,8 @@ import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public final class Task2 {
     private Task2() {
@@ -30,6 +32,8 @@ public final class Task2 {
     }
 
     public static final class FixedThreadPool implements ThreadPool {
+        private static final Logger LOGGER = LogManager.getLogger();
+
         private volatile boolean isRunning;
         private final int corePoolSize;
         private final Thread[] pool;
@@ -65,7 +69,8 @@ public final class Task2 {
 
                         try {
                             workQueue.take().run();
-                        } catch (InterruptedException ignored) {
+                        } catch (InterruptedException exception) {
+                            LOGGER.info(exception);
                         }
                     }
                 });
