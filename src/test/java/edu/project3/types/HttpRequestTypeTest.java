@@ -19,8 +19,6 @@ public class HttpRequestTypeTest {
     @Test
     @DisplayName("Incorrect request type")
     void incorrectRequest() {
-        String maybeRequest = "GOT";
-
-        assertThat(HttpRequestType.parseRequestType(maybeRequest)).isEmpty();
+        assertThat(HttpRequestType.parseRequestType("GOT")).isEmpty();
     }
 }

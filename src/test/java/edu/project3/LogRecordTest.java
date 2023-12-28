@@ -177,7 +177,6 @@ public class LogRecordTest {
             .setBodyBytesSent(0)
             .setHttpReferer("Referer")
             .setHttpUserAgent("Agent");
-
         LogRecord.Builder builderSecond = LogRecord.Builder.newInstance()
             .setUser("User")
             .setTime(OffsetDateTime.of(2023, 11, 2, 22, 11, 0, 0, ZoneOffset.UTC))

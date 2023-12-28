@@ -33,16 +33,17 @@ public class AdocLogReportRendererTest {
         for (int i = 0; i < 3; i++) {
             Metrics.collect(RECORD);
         }
-
         LocalDate date = LocalDate.of(2023, 12, 31);
         Configuration configuration = new Configuration("path", date, date, OutputFormat.MARKDOWN);
-        LogReport report = new LogReport(configuration);
         LogReportRenderer reportRenderer = new AdocLogReportRenderer();
+        LogReport report = new LogReport(configuration);
 
-        assertThat(reportRenderer.render(report)).containsIgnoringWhitespaces(REPORT_VIEW);
+        String actualReportString = reportRenderer.render(report);
+
+        assertThat(actualReportString).containsIgnoringWhitespaces(EXPECTED_REPORT_STRING);
     }
 
-    private static final String REPORT_VIEW = """
+    private static final String EXPECTED_REPORT_STRING = """
         .Общая информация
         |===
         |Метрика |Значение\s
