@@ -33,7 +33,6 @@ public class MarkdownLogReportRendererTest {
         for (int i = 0; i < 3; i++) {
             Metrics.collect(RECORD);
         }
-
         LocalDate date = LocalDate.of(2023, 12, 31);
         Configuration configuration = new Configuration("path", date, date, OutputFormat.MARKDOWN);
         LogReportRenderer reportRenderer = new MarkdownLogReportRenderer();

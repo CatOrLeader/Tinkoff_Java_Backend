@@ -20,6 +20,21 @@ import static org.mockserver.model.HttpResponse.response;
 
 @ExtendWith(MockServerExtension.class)
 public class RemoteLogParserTest {
+    private static final String LOG_STRING =
+        "93.180.71.3 - - [17/May/2015:08:05:32 +0000] \"GET /downloads/product_1 HTTP/1.1\" 304 0 \"-\" \"Debian APT-HTTP/1.3 (0.8.16~exp12ubuntu10.21)\"";
+    private static final LogRecord LOG = LogRecord.Builder.newInstance()
+        .setAddress("93.180.71.3")
+        .setUser("-")
+        .setTime(OffsetDateTime.of(2015, 5, 17, 8, 5, 32, 0, ZoneOffset.UTC))
+        .setRequest(HttpRequestType.GET)
+        .setResource("/downloads/product_1")
+        .setProtocol("HTTP/1.1")
+        .setStatus(304)
+        .setBodyBytesSent(0)
+        .setHttpReferer("-")
+        .setHttpUserAgent("Debian APT-HTTP/1.3 (0.8.16~exp12ubuntu10.21)")
+        .build();
+
     private static final LogParser PARSER = new RemoteLogParser();
     private final ClientAndServer server;
 
@@ -32,10 +47,7 @@ public class RemoteLogParserTest {
         ).respond(
             response()
                 .withStatusCode(200)
-                .withBody(
-                    "93.180.71.3 - - [17/May/2015:08:05:32 +0000] \"GET /downloads/product_1 HTTP/1.1\" 304 0 \"-\" \"Debian APT-HTTP/1.3 (0.8.16~exp12ubuntu10.21)\"\n" +
-                    "93.180.71.3 - - [17/May/2015:08:05:23 +0000] \"GET /downloads/product_1 HTTP/1.1\" 304 0 \"-\" \"Debian APT-HTTP/1.3 (0.8.16~exp12ubuntu10.21)\""
-                )
+                .withBody(LOG_STRING + "\n" + LOG_STRING)
         );
     }
 
@@ -61,32 +73,7 @@ public class RemoteLogParserTest {
         );
 
         List<LogRecord> actualRecords = PARSER.parse(configuration).toList();
-        List<LogRecord> expectedRecords = List.of(
-            LogRecord.Builder.newInstance()
-                .setAddress("93.180.71.3")
-                .setUser("-")
-                .setTime(OffsetDateTime.of(2015, 5, 17, 8, 5, 32, 0, ZoneOffset.UTC))
-                .setRequest(HttpRequestType.GET)
-                .setResource("/downloads/product_1")
-                .setProtocol("HTTP/1.1")
-                .setStatus(304)
-                .setBodyBytesSent(0)
-                .setHttpReferer("-")
-                .setHttpUserAgent("Debian APT-HTTP/1.3 (0.8.16~exp12ubuntu10.21)")
-                .build(),
-            LogRecord.Builder.newInstance()
-                .setAddress("93.180.71.3")
-                .setUser("-")
-                .setTime(OffsetDateTime.of(2015, 5, 17, 8, 5, 23, 0, ZoneOffset.UTC))
-                .setRequest(HttpRequestType.GET)
-                .setResource("/downloads/product_1")
-                .setProtocol("HTTP/1.1")
-                .setStatus(304)
-                .setBodyBytesSent(0)
-                .setHttpReferer("-")
-                .setHttpUserAgent("Debian APT-HTTP/1.3 (0.8.16~exp12ubuntu10.21)")
-                .build()
-        );
+        List<LogRecord> expectedRecords = List.of(LOG, LOG);
 
         assertThat(actualRecords).containsExactlyInAnyOrderElementsOf(expectedRecords);
     }

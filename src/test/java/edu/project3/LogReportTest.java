@@ -29,15 +29,15 @@ public class LogReportTest {
         for (int i = 0; i < 3; i++) {
             Metrics.collect(RECORD);
         }
-
         LocalDate date = LocalDate.now();
         Configuration configuration = new Configuration("path", date, date, OutputFormat.MARKDOWN);
         LogReport report = new LogReport(configuration);
 
+        // Я оставляю тут такой набор ассершнов, потому что я не понимаю, как разбить их по умному на юниты.
+        // Можно написать тест на каждую характеристику, но мне сейчас уже очень лень (В тесте метрик такая же ситуация)
         assertThat(report.getSource()).isEqualTo("path");
         assertThat(report.getFrom()).isEqualTo(date);
         assertThat(report.getTo()).isEqualTo(date);
-
         assertThat(report.getMeanAnswerSize()).isEqualTo(0);
         assertThat(report.getRequestCount()).isEqualTo(3);
         assertThat(report.getAddresses().getFirst().getKey().equals("a")
