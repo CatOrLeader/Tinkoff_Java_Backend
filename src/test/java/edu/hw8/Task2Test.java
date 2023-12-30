@@ -31,9 +31,7 @@ public class Task2Test {
     @DisplayName("Insertion of the task after termination")
     void insertionAfterTermination() {
         assertThatExceptionOfType(RejectedExecutionException.class)
-            .isThrownBy(() -> {
-                tryToRunAfterTermination(1, () -> System.out.println("I'm stupid task"));
-            });
+            .isThrownBy(() -> tryToRunAfterTermination(1, () -> System.out.println("I'm stupid task")));
     }
 
     @Test
