@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Objects;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -87,13 +88,12 @@ public class Task2Test {
     @DisplayName("Check correctness of fib calculator")
     void baseCorrectness() {
         FibCalculator calculator = new DefaultFibCalculator();
-
         final int[] numbers = new int[] {1, 2, 3, 4, 5};
-        final long[] answers = new long[] {1, 1, 2, 3, 5};
 
-        for (int i = 0; i < numbers.length; i++) {
-            assertThat(calculator.fibRuntimeMap(numbers[i])).isEqualTo(answers[i]);
-        }
+        long[] actualValues = Arrays.stream(numbers).mapToLong(calculator::fibRuntimeMap).toArray();
+        long[] expectedValues = new long[] {1, 1, 2, 3, 5};
+
+        assertThat(actualValues).containsExactly(expectedValues);
     }
 
     @Test

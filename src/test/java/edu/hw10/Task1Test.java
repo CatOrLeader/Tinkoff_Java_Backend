@@ -8,7 +8,6 @@ import static edu.hw10.Task1.Min;
 import static edu.hw10.Task1.NotNull;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatExceptionOfType;
-import static org.junit.jupiter.api.Assertions.fail;
 
 public class Task1Test {
     private enum CreationMethod {
@@ -172,27 +171,20 @@ public class Task1Test {
     @DisplayName("Null can be created if it is possible")
     void nullCanBeCreated() throws NoSuchMethodException {
         final int maxCount = 100;
-        for (int i = 0; i < maxCount; i++) {
-            if (((TwoTypesClass) Task1.RandomObjectGenerator.nextObject(TwoTypesClass.class)).string == null) {
-                return;
-            }
-        }
-        fail("Null cannot be created");
+
+        boolean isNullCanBeCreated = isNullCanBeCreatedFromNIterations(maxCount);
+
+        assertThat(isNullCanBeCreated).isTrue();
     }
 
     @Test
     @DisplayName("All the annotations are satisfied")
     void allAnnotationsAreSatisfied() throws NoSuchMethodException {
         final int maxCount = 100;
-        for (int i = 0; i < maxCount; i++) {
-            var object =
-                (TwoTypesClassWithAnnotations) Task1.RandomObjectGenerator.nextObject(TwoTypesClassWithAnnotations.class);
-            if (!(TwoTypesClassWithAnnotations.MIN_VALUE <= object.integer &&
-                  object.integer <= TwoTypesClassWithAnnotations.MAX_VALUE)
-                || object.string == null) {
-                fail();
-            }
-        }
+
+        boolean areBoundsSatisfiedForEveryone = areBoundsSatisfiedFromNIterations(maxCount);
+
+        assertThat(areBoundsSatisfiedForEveryone).isTrue();
     }
 
     @Test
@@ -213,5 +205,35 @@ public class Task1Test {
 
         assertThat(actualValue).isInstanceOf(TwoTypesClass.class);
         assertThat(actualValue.creationMethod).isEqualTo(CreationMethod.METHOD);
+    }
+
+    private static boolean isNullCanBeCreatedFromNIterations(int N) throws NoSuchMethodException {
+        for (int i = 0; i < N; i++) {
+            if (isNullCreated()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static boolean isNullCreated() throws NoSuchMethodException {
+        return ((TwoTypesClass) Task1.RandomObjectGenerator.nextObject(TwoTypesClass.class)).string == null;
+    }
+
+    private static boolean areBoundsSatisfiedFromNIterations(int N) throws NoSuchMethodException {
+        for (int i = 0; i < N; i++) {
+            if (!areBoundsSatisfied()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static boolean areBoundsSatisfied() throws NoSuchMethodException {
+        var object =
+            (TwoTypesClassWithAnnotations) Task1.RandomObjectGenerator.nextObject(TwoTypesClassWithAnnotations.class);
+        return (TwoTypesClassWithAnnotations.MIN_VALUE <= object.integer
+                && object.integer <= TwoTypesClassWithAnnotations.MAX_VALUE)
+               && object.string != null;
     }
 }
