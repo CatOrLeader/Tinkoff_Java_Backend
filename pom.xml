@@ -31,7 +31,7 @@
 
         <commons-cli.version>1.6.0</commons-cli.version>
 
-        <jetbrains-annotations.version>24.0.1</jetbrains-annotations.version>
+        <jetbrains-annotations.version>24.1.0</jetbrains-annotations.version>
         <log4j.version>2.20.0</log4j.version>
 
         <junit.version>5.10.0</junit.version>
