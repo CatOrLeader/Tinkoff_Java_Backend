@@ -50,7 +50,7 @@
         <jacoco-maven-plugin.version>0.8.10</jacoco-maven-plugin.version>
       
         <bytebuddy.version>1.14.11</bytebuddy.version>
-        <asm.version>9.6</asm.version>
+        <asm.version>9.7.1</asm.version>
 
         <jmh.version>1.37</jmh.version>
     </properties>
